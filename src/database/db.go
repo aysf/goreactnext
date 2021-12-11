@@ -24,4 +24,5 @@ func Connect() {
 
 func Automigrate() {
 	DB.AutoMigrate(models.User{})
+	// helo
 }
