@@ -2,8 +2,8 @@ package models
 
 type User struct {
 	Id          uint
-	Firstname   string
-	Lastname    string
+	FirstName   string
+	LastName    string
 	Email       string
 	Password    string
 	IsAmbasador bool
