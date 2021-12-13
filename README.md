@@ -1,4 +1,5 @@
-# This is the practicing repository of full stack with Golang and Docker
+# Goland Docker and MySql
+_This is the practicing repository of full stack with Golang and Docker_
 
 to go inside docker service, run docker compose 
 
