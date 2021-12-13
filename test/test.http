@@ -16,8 +16,8 @@ POST http://localhost:8080/api/admin/login HTTP/1.1
 content-type: application/json
 
 {
-    "email": "budi@p.com",
-    "password": "12"
+    "email": "b@p.com",
+    "password": "123"
 }
 
 
@@ -51,3 +51,40 @@ content-type: application/json
 
 ###
 GET http://localhost:8080/api/admin/ambassadors HTTP/1.1
+
+
+
+###
+POST http://localhost:8080/api/admin/products HTTP/1.1
+content-type: application/json
+
+{
+    "title": "my title",
+    "description": "this is about product trial",
+    "image": "img.jpg",
+    "price": 10
+}
+
+###
+GET http://localhost:8080/api/admin/products HTTP/1.1
+
+
+
+###
+GET http://localhost:8080/api/admin/products/1 HTTP/1.1
+
+
+###
+PUT http://localhost:8080/api/admin/products/1 HTTP/1.1
+content-type: application/json
+
+{
+    "title": "my NEW title",
+    "description": "this is about product trial",
+    "image": "NEWimg.jpg",
+    "price": 14
+}
+
+
+###
+DELETE  http://localhost:8080/api/admin/products/1 HTTP/1.1

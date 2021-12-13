@@ -23,6 +23,5 @@ func Connect() {
 }
 
 func Automigrate() {
-	DB.AutoMigrate(models.User{})
-	// helo
+	DB.AutoMigrate(models.User{}, models.Product{})
 }
