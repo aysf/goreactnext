@@ -1,0 +1,53 @@
+###
+POST http://localhost:8080/api/admin/register HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "Budi",
+    "last_name": "Papa",
+    "email": "b@p.com",
+    "password": "123",
+    "password_confirm": "123"
+}
+
+
+###
+POST http://localhost:8080/api/admin/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "budi@p.com",
+    "password": "12"
+}
+
+
+###
+GET http://localhost:8080/api/admin/user HTTP/1.1
+
+
+
+###
+GET http://localhost:8080/api/admin/logout HTTP/1.1
+
+###
+PUT http://localhost:8080/api/admin/user/info HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "Budiiiii",
+    "last_name": "Papa",
+    "email": "budi@p.com"
+}
+
+###
+PUT http://localhost:8080/api/admin/user/password HTTP/1.1
+content-type: application/json
+
+{
+    "password": "12",
+    "password_confirm": "12"
+}
+
+
+###
+GET http://localhost:8080/api/admin/ambassadors HTTP/1.1
