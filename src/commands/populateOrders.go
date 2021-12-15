@@ -28,7 +28,7 @@ func main() {
 			})
 		}
 
-		database.DB.Create(models.Order{
+		database.DB.Create(&models.Order{
 			UserId:          uint(rand.Intn(30) + 1),
 			Code:            faker.Username(),
 			AmbassadorEmail: faker.Email(),
