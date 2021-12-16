@@ -35,7 +35,7 @@ func main() {
 			FirstName:       faker.FirstName(),
 			LastName:        faker.LastName(),
 			Complete:        true,
-			OrderItem:       orderItems,
+			OrderItems:      orderItems,
 		})
 
 	}

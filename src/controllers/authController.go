@@ -1,14 +1,13 @@
 package controllers
 
 import (
-	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aysf/goreactnext/src/database"
 	"github.com/aysf/goreactnext/src/middlewares"
 	"github.com/aysf/goreactnext/src/models"
 	"github.com/gofiber/fiber/v2"
-	"github.com/golang-jwt/jwt"
 )
 
 const SECRET_KEY string = "secret"
@@ -31,7 +30,7 @@ func Register(c *fiber.Ctx) error {
 		FirstName:   data["first_name"],
 		LastName:    data["last_name"],
 		Email:       data["email"],
-		IsAmbasador: false,
+		IsAmbasador: strings.Contains(c.Path(), "/api/ambassador"),
 	}
 
 	user.SetPassword(data["password"])
@@ -67,14 +66,24 @@ func Login(c *fiber.Ctx) error {
 		})
 	}
 
-	payload := jwt.StandardClaims{
-		Subject:   strconv.Itoa(int(user.Id)),
-		ExpiresAt: time.Now().Add(time.Hour * 24).Unix(),
+	urlAmbassador := strings.Contains(c.Path(), "/api/ambassador")
+
+	var scope string
+
+	if urlAmbassador {
+		scope = "ambassador"
+	} else {
+		scope = "admin"
 	}
 
-	clamis := jwt.NewWithClaims(jwt.SigningMethodHS256, payload)
+	if !urlAmbassador && user.IsAmbasador {
+		c.Status(fiber.StatusUnauthorized)
+		return c.JSON(fiber.Map{
+			"message": "unauthenticated",
+		})
+	}
 
-	token, err := clamis.SignedString([]byte(SECRET_KEY))
+	token, err := middlewares.GenerateJWT(user.Id, scope)
 
 	if err != nil {
 		c.Status(fiber.StatusBadRequest)
@@ -104,6 +113,12 @@ func User(c *fiber.Ctx) error {
 	var user models.User
 
 	database.DB.Where("id = ?", id).First(&user)
+
+	if strings.Contains(c.Path(), "/api/ambassador") {
+		ambassador := models.Ambassador(user)
+		ambassador.CalculateRevenue(database.DB)
+		return c.JSON(ambassador)
+	}
 
 	return c.JSON(user)
 }

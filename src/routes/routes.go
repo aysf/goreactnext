@@ -14,23 +14,29 @@ func Setup(app *fiber.App) {
 	admin.Post("register", controllers.Register)
 	admin.Post("login", controllers.Login)
 
-	auth := admin.Use(middlewares.IsAuthenticated)
-	auth.Get("user", controllers.User)
-	auth.Get("logout", controllers.Logout)
-	auth.Put("user/info", controllers.UpdateInfo)
-	auth.Put("user/password", controllers.UpdatePassword)
-	auth.Get("ambassadors", controllers.Ambassadors)
+	adminAuth := admin.Use(middlewares.IsAuthenticated)
+	adminAuth.Get("user", controllers.User)
+	adminAuth.Get("logout", controllers.Logout)
+	adminAuth.Put("user/info", controllers.UpdateInfo)
+	adminAuth.Put("user/password", controllers.UpdatePassword)
+	adminAuth.Get("ambassadors", controllers.Ambassadors)
+	adminAuth.Get("products", controllers.Products)
+	adminAuth.Post("products", controllers.CreateProduct)
+	adminAuth.Get("products/:id", controllers.GetProduct)
+	adminAuth.Put("products/:id", controllers.UpdateProduct)
+	adminAuth.Delete("products/:id", controllers.DeleteProduct)
+	adminAuth.Get("users/:id/links", controllers.Link)
+	adminAuth.Get("orders", controllers.Orders)
 
-	// products
-	auth.Get("products", controllers.Products)
-	auth.Post("products", controllers.CreateProduct)
-	auth.Get("products/:id", controllers.GetProduct)
-	auth.Put("products/:id", controllers.UpdateProduct)
-	auth.Delete("products/:id", controllers.DeleteProduct)
+	ambassador := api.Group("ambassador")
 
-	auth.Get("users/:id/links", controllers.Link)
+	ambassador.Post("login", controllers.Login)
+	ambassador.Post("register", controllers.Register)
 
-	// orders
-	auth.Get("orders", controllers.Orders)
+	ambassadorAuth := ambassador.Use(middlewares.IsAuthenticated)
+	ambassadorAuth.Get("user", controllers.User)
+	ambassadorAuth.Get("logout", controllers.Logout)
+	ambassadorAuth.Put("user/info", controllers.UpdateInfo)
+	ambassadorAuth.Put("user/password", controllers.UpdatePassword)
 
 }

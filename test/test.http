@@ -12,7 +12,7 @@ content-type: application/json
 
 
 ###
-POST http://localhost:8080/api/admin/login HTTP/1.1
+POST http://localhost:8080/api/ambassador/login HTTP/1.1
 content-type: application/json
 
 {
@@ -92,3 +92,39 @@ DELETE  http://localhost:8080/api/admin/products/1 HTTP/1.1
 
 ###
 GET http://localhost:8080/api/admin/users/3/links HTTP/1.1
+
+###
+GET http://localhost:8080/api/admin/orders HTTP/1.1
+
+
+###
+GET http://localhost:8080/api/admin/users/3/links HTTP/1.1
+
+###
+POST http://localhost:8080/api/ambassador/register HTTP/1.1
+content-type: application/json
+
+{
+    "first_name": "Rapi",
+    "last_name": "Amat",
+    "email": "ra@ra.com",
+    "password": "123",
+    "password_confirm": "123"
+}
+
+
+
+###
+POST http://localhost:8080/api/ambassador/login HTTP/1.1
+content-type: application/json
+
+{
+    "email": "ra@ra.com",
+    "password": "123"
+}
+
+
+###
+GET http://localhost:8080/api/ambassador/user HTTP/1.1
+
+
