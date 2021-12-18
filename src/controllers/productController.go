@@ -4,6 +4,7 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	"sort"
 	"strconv"
 	"strings"
 	"time"
@@ -138,8 +139,13 @@ func ProductBackend(c *fiber.Ctx) error {
 		searchedProducts = products
 	}
 
-	if sort := c.Query("sort"); sort != "" {
-		sortLower := strings.ToLower(sort)
+	if sortParam := c.Query("sort"); sortParam != "" {
+		sortLower := strings.ToLower(sortParam)
+		if sortLower == "asc" {
+			sort.Slice(searchedProducts, func(i, j int) bool { return searchedProducts[i].Price < searchedProducts[j].Price })
+		} else if sortLower == "desc" {
+			sort.Slice(searchedProducts, func(i, j int) bool { return searchedProducts[i].Price > searchedProducts[j].Price })
+		}
 	}
 
 	return c.JSON(searchedProducts)
