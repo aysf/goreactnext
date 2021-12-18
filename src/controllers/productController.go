@@ -5,6 +5,7 @@ import (
 	"encoding/json"
 	"fmt"
 	"strconv"
+	"strings"
 	"time"
 
 	"github.com/aysf/goreactnext/src/database"
@@ -95,9 +96,51 @@ func ProductFrontend(c *fiber.Ctx) error {
 		if err := database.Cache.Set(ctx, "product_frontend", bytes, 30*time.Minute).Err(); err != nil {
 			panic(err.Error())
 		}
+	} else {
+		json.Unmarshal([]byte(result), &products)
 	}
 
-	json.Unmarshal([]byte(result), &products)
-
 	return c.JSON(products)
+}
+
+func ProductBackend(c *fiber.Ctx) error {
+	var products []models.Product
+	var ctx = context.Background()
+
+	result, err := database.Cache.Get(ctx, "product_backend").Result()
+
+	if err != nil {
+		fmt.Println(err.Error())
+
+		database.DB.Find(&products)
+
+		bytes, err := json.Marshal(products)
+
+		if err != nil {
+			panic(err)
+		}
+
+		database.Cache.Set(ctx, "product_backend", bytes, 30*time.Minute)
+	} else {
+		json.Unmarshal([]byte(result), &products)
+	}
+
+	var searchedProducts []models.Product
+
+	if s := c.Query("s"); s != "" {
+		lower := strings.ToLower(s)
+		for _, product := range products {
+			if strings.Contains(strings.ToLower(product.Title), lower) || strings.Contains(strings.ToLower(product.Description), lower) {
+				searchedProducts = append(searchedProducts, product)
+			}
+		}
+	} else {
+		searchedProducts = products
+	}
+
+	if sort := c.Query("sort"); sort != "" {
+		sortLower := strings.ToLower(sort)
+	}
+
+	return c.JSON(searchedProducts)
 }

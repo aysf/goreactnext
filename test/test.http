@@ -132,3 +132,6 @@ GET http://localhost:8080/api/ambassador/user HTTP/1.1
 
 ###
 GET http://localhost:8080/api/ambassador/products/frontend HTTP/1.1
+
+###
+GET http://localhost:8080/api/ambassador/products/backend HTTP/1.1
