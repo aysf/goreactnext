@@ -12,7 +12,7 @@ content-type: application/json
 
 
 ###
-POST http://localhost:8080/api/ambassador/login HTTP/1.1
+POST http://localhost:8080/api/admin/login HTTP/1.1
 content-type: application/json
 
 {
@@ -79,10 +79,10 @@ PUT http://localhost:8080/api/admin/products/1 HTTP/1.1
 content-type: application/json
 
 {
-    "title": "my NEW title",
-    "description": "this is about product trial",
-    "image": "NEWimg.jpg",
-    "price": 14
+    "title": "updated",
+    "description": "updated",
+    "image": "updated.jpg",
+    "price": 99
 }
 
 
