@@ -79,7 +79,7 @@ PUT http://localhost:8080/api/admin/products/1 HTTP/1.1
 content-type: application/json
 
 {
-    "title": "updated 5",
+    "title": "updated channel 44",
     "description": "updated",
     "image": "updated.jpg",
     "price": 99
@@ -135,3 +135,10 @@ GET http://localhost:8080/api/ambassador/products/frontend HTTP/1.1
 
 ###
 GET http://localhost:8080/api/ambassador/products/backend HTTP/1.1
+
+
+###
+POST http://localhost:8080/api/ambassador/links HTTP/1.1
+{
+    "products": [2,3,5]
+}
