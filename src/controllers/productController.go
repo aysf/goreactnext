@@ -43,6 +43,8 @@ func GetProduct(c *fiber.Ctx) error {
 
 	database.DB.Find(&product)
 
+	go database.ClearCache("product_frontend", "product_backend")
+
 	return c.JSON(product)
 }
 
@@ -59,23 +61,28 @@ func UpdateProduct(c *fiber.Ctx) error {
 
 	database.DB.Model(&product).Updates(&product)
 
-	go deleteCache("product_frontend")
-	go deleteCache("product_backend")
+	// go routine > cara 1
+	// go deleteCache("product_frontend")
+	// go deleteCache("product_backend")
 
-	// an alternetive go routine
+	// go routine > cara 2
 	// go func(key) {} ("product_frontend")
+
+	// go routine > cara 3
+	go database.ClearCache("product_frontend", "product_backend")
 
 	return c.JSON(product)
 }
 
-func deleteCache(key string) {
+// go routine fungsi cara 1
+// func deleteCache(key string) {
 
-	// simulasi loading 3 detik
-	time.Sleep(3 * time.Second)
+// 	// simulasi loading 3 detik
+// 	time.Sleep(3 * time.Second)
 
-	database.Cache.Del(context.Background(), key)
+// 	database.Cache.Del(context.Background(), key)
 
-}
+// }
 
 func DeleteProduct(c *fiber.Ctx) error {
 
@@ -86,6 +93,8 @@ func DeleteProduct(c *fiber.Ctx) error {
 	product.Id = uint(id)
 
 	database.DB.Delete(&product)
+
+	go database.ClearCache("product_frontend", "product_backend")
 
 	return c.JSON(fiber.Map{
 		"message": "delete success",

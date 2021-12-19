@@ -12,6 +12,7 @@ func main() {
 	database.Connect()
 	database.Automigrate()
 	database.SetupRedis()
+	database.SetupCacheChannel()
 
 	app := fiber.New()
 
