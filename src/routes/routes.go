@@ -41,5 +41,6 @@ func Setup(app *fiber.App) {
 	ambassadorAuth.Put("user/password", controllers.UpdatePassword)
 	ambassadorAuth.Post("links", controllers.CreateLinks)
 	ambassadorAuth.Get("stats", controllers.Stats)
+	ambassadorAuth.Get("ranking", controllers.Ranking)
 
 }

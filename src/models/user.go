@@ -21,6 +21,10 @@ type (
 	Ambassador User
 )
 
+func (u *User) Name() string {
+	return u.FirstName + " " + u.LastName
+}
+
 func (u *User) SetPassword(password string) {
 	hashedPassword, _ := bcrypt.GenerateFromPassword([]byte(password), 12)
 	u.Password = string(hashedPassword)
